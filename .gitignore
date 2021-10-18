@@ -1,0 +1,14 @@
+.idea/
+.env
+vendor/
+
+# Wordpress plugins
+wordpress/plugins/*
+!wordpress/plugins/index.php
+
+# Wordpress themes
+wordpress/themes/*
+!wordpress/themes/index.php
+
+# Wordpress uploads
+wordpress/uploads

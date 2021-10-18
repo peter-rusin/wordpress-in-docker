@@ -1,0 +1,46 @@
+version: "3.5"
+services:
+  wordpress:
+    image: wordpress:5.8.1-apache
+    user: "${UID}:${GID}"
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      APACHE_RUN_USER: "#${UID}"
+      APACHE_RUN_GROUP: "#${GID}"
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME: "${MYSQL_DATABASE}"
+      WORDPRESS_DB_USER: "${MYSQL_USER}"
+      WORDPRESS_DB_PASSWORD: "${MYSQL_PASSWORD}"
+    volumes:
+      - ./wordpress/plugins:/var/www/html/wp-content/plugins
+      - ./wordpress/themes:/var/www/html/wp-content/themes
+      - ./wordpress/uploads:/var/www/html/wp-content/uploads
+    depends_on:
+      - db
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+    volumes:
+      - db:/var/lib/mysql
+
+  composer:
+    image: composer:latest
+    user: "${UID}:${GID}"
+    volumes:
+      - .:/app
+    command: install
+
+volumes:
+  db:
+
+networks:
+  default:
+    external: true
+    name: my-net

@@ -1,0 +1,25 @@
+{
+    "name": "peter-rusin/wordpress-in-docker",
+    "description": "",
+    "type": "project",
+    "repositories":[
+        {
+            "type":"composer",
+            "url":"https://wpackagist.org",
+            "only": [
+                "wpackagist-plugin/*",
+                "wpackagist-theme/*"
+            ]
+        }
+    ],
+    "extra": {
+        "installer-paths": {
+            "wordpress/plugins/{$name}/": [
+                "type:wordpress-plugin"
+            ],
+            "wordpress/themes/{$name}/": [
+                "type:wordpress-theme"
+            ]
+        }
+    }
+}
